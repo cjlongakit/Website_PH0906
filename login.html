@@ -1,36 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>Login Page</title>
-    <script>
-        function validateLogin(event) {
-            event.preventDefault(); // Prevent form submission
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            if (username === 'PH906' && password === 'PH906') {
-                window.location.href = 'home.html'; // Redirect to home.html
-            } else {
-                alert('Invalid credentials. Please try again.');
-            }
-        }
-    </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login PH0906</title>
+  <link rel="stylesheet" href="login.css" />
 </head>
 <body>
-    <div class="login-container">
-        <div class="logo">
-            <img src="logo.png" alt="PH0906 Logo">
-        </div>
-        <h1>HELLO, PH0906</h1>
-        <form class="login-form" onsubmit="validateLogin(event)">
-            <input type="text" id="username" placeholder="Name..." name="name" required>
-            <input type="password" id="password" placeholder="Password" name="password" required>
-            <a href="#" class="forgot-password">Forgot Your Password?</a>
-            <button type="submit">Log In</button>
-        </form>
+  <div class="login-container">
+    <div class="header">
+      <img src="ph0906logo.png" alt="Church Icon" class="icon" />
+      <h1 class="header-title">
+        HELLO,<br>
+        <span class="highlight">PH0906!</span>
+      </h1>
     </div>
+    <form class="login-form">
+      <input type="text" name="name" placeholder="Name" required />
+      <input type="password" name="password" placeholder="Password" required />
+      <a href="#" class="forgot-password">Forgot Your Password?</a>
+      <button type="submit" class="login-button">Log In</button>
+    </form>
+  </div>
 </body>
 </html>
