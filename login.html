@@ -15,9 +15,15 @@
         <span class="highlight">PH0906!</span>
       </h1>
     </div>
-    <form class="login-form">
-      <input type="text" name="name" placeholder="Name" required />
-      <input type="password" name="password" placeholder="Password" required />
+    <form class="login-form" action="home.html" method="get">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Name" required />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Password" required />
+      </div>
       <a href="#" class="forgot-password">Forgot Your Password?</a>
       <button type="submit" class="login-button">Log In</button>
     </form>

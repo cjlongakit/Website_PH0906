@@ -74,14 +74,14 @@ button:hover {
     padding: 20px;
     background-color: white;
     min-height: 100vh;
-    color: #003399; /* Dark blue text for contrast */
+    color: #545151; /* Dark blue text for contrast */
 }
 
 /* Table styles */
 table {
     width: 100%;
     border-collapse: collapse;
-    background-color: #003399;
+    background-color: #545151;
     color: white;
     margin-top: 20px;
 }
@@ -89,7 +89,7 @@ table {
 th, td {
     padding: 12px;
     text-align: left;
-    border: 1px solid #003399;
+    border: 1px solid #545151;
 }
 
 th {
@@ -101,7 +101,7 @@ th {
 h1, h2 {
     text-align: center;
     margin-bottom: 20px;
-    color: #003399;
+    color: #545151;
 }
 
 /* Dropdown styles */

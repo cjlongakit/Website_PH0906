@@ -3,29 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>PH0906 Home</title>
+  <title>PH0906 Dashboard</title>
   <link rel="stylesheet" href="home.css" />
 </head>
 <body>
+  <div class="sidebar-panel">
+    <div class="sidebar-header">
+      <h2>Dashboard</h2>
+    </div>
+    <ul class="sidebar-menu">
+      <li><a href="#">LETTERS</a></li>
+      <li><a href="#">EVENTS</a></li>
+      <li><a href="#">ALL STUDENTS</a></li>
+      <li><a href="#">LOG OUT</a></li>
+    </ul>
+    <div class="sidebar-footer">
+      <div class="abstract-shape"></div>
+    </div>
+  </div>
+
   <div class="home-container">
     <header class="main-header">
       <div class="header-group">
         <img src="ph0906logo.png" alt="Church Icon" class="icon" />
-        <h1>
-          HELLO, <span class="highlight">PH0906!</span>
-        </h1>
-      </div>
-      <div class="menu-icon">
-        <span></span>
-        <span></span>
-        <span></span>
+        <h1>HELLO, <span class="highlight">PH0906!</span></h1>
       </div>
     </header>
-    <nav class="main-nav">
-      <a href="#" class="active">LETTERS</a>
-      <a href="#">EVENTS</a>
-      <a href="#">ALL STUDENTS</a>
-    </nav>
+
     <section class="search-section">
       <button class="filter-btn" id="filter-btn">&#x1F50D;</button>
       <div class="filter-dropdown" id="filter-dropdown" style="display:none;">
@@ -38,6 +42,7 @@
       <input type="text" class="search-input" placeholder="Search" />
       <button class="add-btn" onclick="window.location.href='addstudents.html'">ADD <span>+</span></button>
     </section>
+
     <section class="table-section">
       <table>
         <thead>
@@ -51,136 +56,131 @@
             <th></th>
           </tr>
         </thead>
-        <tbody id="students-tbody">
-          <!-- Students will be inserted here -->
-        </tbody>
+        <tbody id="students-tbody"></tbody>
       </table>
     </section>
   </div>
+
   <script>
-const STATUS_OPTIONS = [
-  { value: "PENDING", label: "PENDING", color: "#444d5c" },
-  { value: "OUTDATED", label: "OUTDATED", color: "#e11d48" },
-  { value: "TURN IN", label: "TURN IN", color: "#39ff14" },
-  { value: "TURN IN LATE", label: "TURN IN LATE", color: "#ff9100" }
-];
+    const STATUS_OPTIONS = [
+      { value: "PENDING", label: "PENDING", color: "#444d5c" },
+      { value: "OUTDATED", label: "OUTDATED", color: "#e11d48" },
+      { value: "TURN IN", label: "TURN IN", color: "#39ff14" },
+      { value: "TURN IN LATE", label: "TURN IN LATE", color: "#ff9100" }
+      
+    ];
 
-function getStatusColor(status) {
-  switch (status) {
-    case "OUTDATED": return "#e11d48";
-    case "TURN IN": return "#39ff14";
-    case "TURN IN LATE": return "#ff9100";
-    default: return "#444d5c";
-  }
-}
-
-let currentFilter = null;
-
-function renderStudents() {
-  let students = JSON.parse(localStorage.getItem('students') || '[]');
-  const today = new Date();
-  let updated = false;
-
-  students.forEach(student => {
-    if (student.deadline) {
-      const deadlineDate = new Date(student.deadline);
-      // If today is the same or after the deadline, set status to OUTDATED
-      if (today >= deadlineDate && student.status !== "OUTDATED") {
-        student.status = "OUTDATED";
-        updated = true;
+    function getStatusColor(status) {
+      switch (status) {
+        case "OUTDATED": return "#e11d48";
+        case "TURN IN": return "#39ff14";
+        case "TURN IN LATE": return "#ff9100";
+        default: return "#444d5c";
       }
     }
-  });
 
-  if (updated) {
-    localStorage.setItem('students', JSON.stringify(students));
-  }
+    let currentFilter = null;
 
-  // Apply filter
-  if (currentFilter === 'asc') {
-    students.sort((a, b) => a.name.localeCompare(b.name));
-  } else if (currentFilter === 'desc') {
-    students.sort((a, b) => b.name.localeCompare(a.name));
-  } else if (currentFilter === 'phasc') {
-    students.sort((a, b) => a.ph906 - b.ph906);
-  } else if (currentFilter === 'phdesc') {
-    students.sort((a, b) => b.ph906 - a.ph906);
-  } else if (currentFilter === 'outdated') {
-    students.sort((a, b) => {
-      if (a.status === 'OUTDATED' && b.status !== 'OUTDATED') return -1;
-      if (a.status !== 'OUTDATED' && b.status === 'OUTDATED') return 1;
-      return 0;
-    });
-  }
+    function renderStudents() {
+      let students = JSON.parse(localStorage.getItem('students') || '[]');
+      const today = new Date();
+      let updated = false;
 
-  const tbody = document.getElementById('students-tbody');
-  tbody.innerHTML = '';
-  students.forEach((student, idx) => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${student.ph906}</td>
-      <td><a href="studentprofile.html?idx=${idx}" class="student-link">${student.name}</a></td>
-      <td>${student.address}</td>
-      <td>${student.type}</td>
-      <td>${student.deadline}</td>
-      <td>
-        <select class="status-dropdown" data-idx="${idx}" style="background:${getStatusColor(student.status)};color:#fff;font-weight:700;border-radius:16px;padding:0.4em 1.2em;border:none;">
-          ${STATUS_OPTIONS.map(opt => `
-            <option value="${opt.value}" ${student.status === opt.value ? 'selected' : ''} style="color:${opt.color};background:#222;">
-              ${opt.label}
-            </option>
-          `).join('')}
-        </select>
-      </td>
-      <td><button class="remove-btn" data-idx="${idx}">&times;</button></td>
-    `;
-    tbody.appendChild(tr);
-  });
+      students.forEach(student => {
+        if (student.deadline) {
+          const deadlineDate = new Date(student.deadline);
+          if (today >= deadlineDate && student.status !== "OUTDATED") {
+            student.status = "OUTDATED";
+            updated = true;
+          }
+        }
+      });
 
-  // Remove functionality
-  document.querySelectorAll('.remove-btn').forEach(function(btn) {
-    btn.addEventListener('click', function(e) {
-      e.preventDefault();
-      if (confirm('Delete this row?\n\nPress OK to Delete, Cancel to keep.')) {
-        students.splice(btn.dataset.idx, 1);
+      if (updated) {
         localStorage.setItem('students', JSON.stringify(students));
-        renderStudents();
       }
-    });
-  });
 
-  // Status dropdown change functionality
-  document.querySelectorAll('.status-dropdown').forEach(function(select) {
-    select.addEventListener('change', function(e) {
-      const idx = select.dataset.idx;
-      students[idx].status = select.value;
-      localStorage.setItem('students', JSON.stringify(students));
-      renderStudents(); // re-render to update color
-    });
-  });
-}
+      if (currentFilter === 'asc') {
+        students.sort((a, b) => a.name.localeCompare(b.name));
+      } else if (currentFilter === 'desc') {
+        students.sort((a, b) => b.name.localeCompare(a.name));
+      } else if (currentFilter === 'phasc') {
+        students.sort((a, b) => a.ph906 - b.ph906);
+      } else if (currentFilter === 'phdesc') {
+        students.sort((a, b) => b.ph906 - a.ph906);
+      } else if (currentFilter === 'outdated') {
+        students.sort((a, b) => {
+          if (a.status === 'OUTDATED' && b.status !== 'OUTDATED') return -1;
+          if (a.status !== 'OUTDATED' && b.status === 'OUTDATED') return 1;
+          return 0;
+        });
+      }
 
-document.addEventListener('DOMContentLoaded', function() {
-  renderStudents();
+      const tbody = document.getElementById('students-tbody');
+      tbody.innerHTML = '';
+      students.forEach((student, idx) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${student.ph906}</td>
+          <td><a href="studentprofile.html?idx=${idx}" class="student-link">${student.name}</a></td>
+          <td>${student.address}</td>
+          <td>${student.type}</td>
+          <td>${student.deadline}</td>
+          <td>
+            <select class="status-dropdown" data-idx="${idx}" style="background:${getStatusColor(student.status)};">
+              ${STATUS_OPTIONS.map(opt => `
+                <option value="${opt.value}" ${student.status === opt.value ? 'selected' : ''}>
+                  ${opt.label}
+                </option>
+              `).join('')}
+            </select>
+          </td>
+          <td><button class="remove-btn" data-idx="${idx}">&times;</button></td>
+        `;
+        tbody.appendChild(tr);
+      });
 
-  // Filter dropdown logic
-  const filterBtn = document.getElementById('filter-btn');
-  const filterDropdown = document.getElementById('filter-dropdown');
-  filterBtn.addEventListener('click', function(e) {
-    e.stopPropagation();
-    filterDropdown.style.display = filterDropdown.style.display === 'block' ? 'none' : 'block';
-  });
-  document.addEventListener('click', function() {
-    filterDropdown.style.display = 'none';
-  });
-  filterDropdown.querySelectorAll('button').forEach(function(btn) {
-    btn.addEventListener('click', function(e) {
-      currentFilter = btn.getAttribute('data-filter');
-      filterDropdown.style.display = 'none';
+      document.querySelectorAll('.remove-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          if (confirm('Delete this row?\n\nPress OK to Delete, Cancel to keep.')) {
+            students.splice(btn.dataset.idx, 1);
+            localStorage.setItem('students', JSON.stringify(students));
+            renderStudents();
+          }
+        });
+      });
+
+      document.querySelectorAll('.status-dropdown').forEach(function(select) {
+        select.addEventListener('change', function(e) {
+          const idx = select.dataset.idx;
+          students[idx].status = select.value;
+          localStorage.setItem('students', JSON.stringify(students));
+          renderStudents();
+        });
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
       renderStudents();
+
+      const filterBtn = document.getElementById('filter-btn');
+      const filterDropdown = document.getElementById('filter-dropdown');
+      filterBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        filterDropdown.style.display = filterDropdown.style.display === 'block' ? 'none' : 'block';
+      });
+      document.addEventListener('click', function() {
+        filterDropdown.style.display = 'none';
+      });
+      filterDropdown.querySelectorAll('button').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          currentFilter = btn.getAttribute('data-filter');
+          filterDropdown.style.display = 'none';
+          renderStudents();
+        });
+      });
     });
-  });
-});
-</script>
+  </script>
 </body>
 </html>
