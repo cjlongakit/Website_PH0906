@@ -1,0 +1,132 @@
+/* Base styles */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: url('darkbluebackground.png') no-repeat center center fixed;
+  background-size: cover;
+  color: white;
+}
+
+/* Sidebar styles */
+.sidebar-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100%;
+  background-color: #1a1a2e;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 1000;
+}
+
+.sidebar-header {
+  padding: 20px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-menu li a {
+  display: block;
+  padding: 10px 20px;
+  color: white;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.sidebar-menu li a:hover {
+  background-color: #16213e;
+}
+
+.sidebar-menu li a.active {
+  background-color: #16213e;
+}
+
+.sidebar-footer {
+  padding: 20px;
+}
+
+/* Header styles */
+.main-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.7);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.main-header .header-group {
+  display: flex;
+  align-items: center;
+}
+
+.main-header .header-group img {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+.main-header h1 {
+  font-size: 24px;
+  color: white;
+}
+
+/* Main container styles */
+.home-container {
+  margin-left: 250px;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.5);
+  min-height: 100vh;
+}
+
+/* Calendar section */
+.table-section {
+  margin-top: 20px;
+}
+
+.table-section h2 {
+  font-size: 20px;
+  color: white;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.day-name {
+  font-weight: bold;
+  text-align: center;
+  padding: 0.5rem;
+  background-color: #16213e;
+  color: white;
+  border-radius: 4px;
+}
+
+.day {
+  text-align: center;
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  color: #333;
+}
+
+.day.empty {
+  background-color: transparent;
+  border: none;
+}

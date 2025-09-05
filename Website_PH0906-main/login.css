@@ -1,0 +1,142 @@
+/* === Base Styles === */
+body {
+  background-image: url("darkbluebackground.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* === Container === */
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: white;
+  width: 90%;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* === Header === */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  margin-bottom: 8rem;
+  width: 100%;
+}
+
+.icon {
+  height: 15rem;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  margin-right: 0;
+  padding-left: 0;
+}
+
+.header-title {
+  font-size: 8rem;
+  line-height: 0.9;
+  margin: 0;
+  text-align: left;
+  padding-left: 0;
+}
+
+.highlight {
+  color: #FFD700;
+}
+
+/* === Form === */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* Grouping for labels and inputs */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+label {
+  font-size: 0.95rem;
+  color: #ffffff;
+  margin-left: 4px;
+}
+
+/* Inputs */
+.login-form input {
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  width: 400px;
+  max-width: 100%;
+  box-sizing: border-box;
+  background-color: #010d3f;
+  color: rgba(255, 255, 255, 0.7); /* Translucent input text */
+}
+
+.login-form input::placeholder {
+  color: rgba(255, 255, 255, 0.5); /* Translucent placeholder */
+  opacity: 1;
+}
+
+.login-form input:focus {
+  outline: 2px solid #FFD700;
+  background-color: #021a6f;
+}
+
+/* Forgot Password Link */
+.forgot-password {
+  font-size: 0.85rem;
+  color: #cccccc;
+  text-decoration: none;
+}
+
+/* Button */
+.login-button {
+  background-color: #555;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #777;
+}
+
+.login-button:focus {
+  outline: 2px solid #FFD700;
+}
+
+/* === Responsive Adjustments === */
+@media (max-width: 600px) {
+  .header-title {
+    font-size: 4rem;
+  }
+
+  .icon {
+    height: 8rem;
+  }
+
+  .login-form input {
+    width: 100%;
+  }
+}
