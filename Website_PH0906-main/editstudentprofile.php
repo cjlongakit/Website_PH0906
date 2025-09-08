@@ -19,12 +19,15 @@ session_start();
 <body>
   <div class="home-container">
     <h2>Edit Student Profile</h2>
-    <form id="edit-student-form">
+  <form id="edit-student-form" action="update_student.php" method="post">
       <label>PH906:
         <input type="text" name="ph906" required>
       </label><br><br>
       <label>Name:
         <input type="text" name="name" required>
+      </label><br><br>
+      <label>Caseworker Assigned:
+        <input type="text" name="caseworker_assigned" required>
       </label><br><br>
       <label>Address:
         <input type="text" name="address" required>

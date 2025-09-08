@@ -13,9 +13,14 @@ $result = $stmt->get_result();
 
 if ($result->num_rows === 1) {
     $user = $result->fetch_assoc();
-    // Check password (plain text)
+    // Debugging: Check fetched user data
+    error_log("Fetched user: " . print_r($user, true));
+
+    // Check password directly
     if ($password === $user['password']) {
         $_SESSION['admin'] = $username;
+        $_SESSION['ph906'] = $user['ph906']; // Store ph906 in session
+        error_log("Session ph906 set to: " . $_SESSION['ph906']);
         header("Location: home.php");
         exit();
     }
