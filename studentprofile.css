@@ -1,20 +1,59 @@
 body {
-  background-image: url("darkbluebackground.png");
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: url('darkbluebackground.png') no-repeat center center fixed;
   background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  color: #fff;
+  color: white;
+}
+
+.home-container {
+  margin: 0 auto;
+  padding: 20px;
+  max-width: 800px;
+}
+
+.main-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.7);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.main-header .header-group {
+  display: flex;
+  align-items: center;
+}
+
+.main-header .header-group img {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+.main-header h1 {
+  font-size: 24px;
+  color: white;
 }
 
 .profile-card {
-  background: rgba(0, 17, 90, 0.97);
-  border-radius: 24px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
-  margin: 2.5rem auto 0 auto;
-  padding: 2.5rem 2rem 2rem 2rem;
-  max-width: 600px;
-  position: relative;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.profile-card h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.profile-card p {
+  font-size: 16px;
+  margin: 5px 0;
 }
 
 .profile-photo {
@@ -130,35 +169,3 @@ hr {
 .profile-letters tr:nth-child(even) {
   background: #f7faff;
 }
-
-// Find all letters for this student by name
-const letters = students
-  .filter(s => s.name === student.name)
-  .sort((a, b) => new Date(a.deadline) - new Date(b.deadline)); // Sort by deadline
-
-// Render the letters table
-const lettersTbody = document.getElementById('letters-tbody');
-lettersTbody.innerHTML = '';
-letters.forEach(letter => {
-  const tr = document.createElement('tr');
-  tr.innerHTML = `
-    <td>${letter.type || ''}</td>
-    <td>${letter.deadline || ''}</td>
-    <td>${letter.status || ''}</td>
-  `;
-  lettersTbody.appendChild(tr);
-});
-
-<div class="profile-letters">
-  <h3>Letters</h3>
-  <table>
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Deadline</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-    <tbody id="letters-tbody"></tbody>
-  </table>
-</div>

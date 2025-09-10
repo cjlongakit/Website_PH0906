@@ -20,18 +20,23 @@ body {
 
 /* Static Sidebar Panel */
 .sidebar-panel {
-  width: 240px;
-  background: #0e141d;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px; /* Sidebar width */
+  height: 100%;
+  background-color: #1e293b; /* Match the sidebar color with other pages */
   color: white;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem;
+  justify-content: flex-start; /* Move items to the top */
+  z-index: 1000;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
 }
 .sidebar-header {
-  padding-bottom: 1rem;
+  padding: 1rem;
   border-bottom: 1px solid #334155;
+  text-align: center;
 }
 .sidebar-header h2 {
   font-size: 1.5rem;
@@ -42,30 +47,33 @@ body {
   padding: 1rem 0;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  height: 600px;
+  align-items: center;
+  gap: 0.5rem; /* Reduce gap to make items closer */
 }
 .sidebar-menu li {
   margin: 0;
 }
 .sidebar-menu a {
-  display: inline-block;
+  display: block;
+  padding: 10px 20px;
   color: white;
   text-decoration: none;
   font-weight: bold;
-  font-size: 1rem;
-  letter-spacing: 0.1rem;
-  line-height: 1.2rem;
   text-align: center;
+  text-transform: uppercase; /* Make text uppercase */
+  transition: background-color 0.3s;
+}
+.sidebar-menu a:hover {
+  background-color: #334155;
 }
 .sidebar-menu a span {
   display: block;
 }
-.abstract-shape {
-  width: 100%;
-  height: 50px;
-  background: linear-gradient(135deg, #38bdf8, #1e293b);
-  border-radius: 8px;
+.sidebar-footer {
+  padding: 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #94a3b8;
 }
 
 /* Main Content Container */
@@ -78,6 +86,7 @@ body {
   flex-direction: column;
   align-items: stretch;
   gap: 1.5rem;
+  margin-left: 250px; /* Push content to the right of the sidebar */
 }
 
 /* Header */
@@ -159,7 +168,7 @@ body {
 
 /* Table Section */
 .table-section {
-  overflow-x: auto;
+  overflow-x: auto; /* Ensure table is scrollable if it overflows */
 }
 table {
   width: 100%;
@@ -280,12 +289,23 @@ th, td {
   color: #FFD700;
 }
 
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
 .modal-content input {
   padding: 0.5rem;
   border: none;
   border-radius: 8px;
   background: #e6eaf7;
   color: #00115a;
+.modal-content label {
+  font-weight: bold;
+  color: #FFD700;
+  margin-bottom: 0.3rem;
+  text-align: left;
+}
 }
 
 .modal-content input:focus {

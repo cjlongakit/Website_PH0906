@@ -1,12 +1,3 @@
-<script>
-  function getQueryParam(name) {
-    const url = new URL(window.location.href);
-    return url.searchParams.get(name);
-  }
-  const idx = getQueryParam('idx');
-  document.getElementById('edit-link').href = `editstudentprofile.html?idx=${idx}`;
-</script>
-
 body {
   background-image: url("darkbluebackground.png");
   background-size: cover;

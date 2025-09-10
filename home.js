@@ -51,7 +51,7 @@ function renderStudents() {
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>${student.ph906}</td>
-      <td><a href="studentprofile.html?idx=${idx}" class="student-link">${student.name}</a></td>
+      <td><a href="studentprofile.php?idx=${idx}" class="student-link">${student.name}</a></td>
       <td>${student.address}</td>
       <td>${student.type}</td>
       <td>${student.deadline}</td>
@@ -135,4 +135,34 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('add-student-modal').style.display = 'none';
     renderStudents();
   });
+
+  // Filter dropdown logic
+  document.getElementById('filter-btn').onclick = function () {
+    const dropdown = document.getElementById('filter-dropdown');
+    dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+  };
+
+  // Search functionality
+  document.getElementById('search-input').oninput = function () {
+    const searchValue = this.value.toLowerCase();
+    const rows = document.querySelectorAll('#students-tbody tr');
+    rows.forEach(row => {
+      const name = row.cells[1].textContent.toLowerCase();
+      const ph906 = row.cells[0].textContent.toLowerCase();
+      row.style.display = name.includes(searchValue) || ph906.includes(searchValue) ? '' : 'none';
+    });
+  };
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+  const addBtn = document.querySelector('.add-btn');
+  const modal = document.getElementById('add-student-modal');
+  if (addBtn && modal) {
+    addBtn.addEventListener('click', function() {
+      modal.style.display = 'flex';
+    });
+  }
+});
+
+alert("home.js loaded!");
+console.log("home.js loaded!");
