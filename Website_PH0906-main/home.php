@@ -140,22 +140,17 @@ session_start();
       <span class="close-modal" id="close-add-modal">&times;</span>
       <h2>Add Student</h2>
       <form id="add-student-form" action="add_student.php" method="post">
-        <label>PH906:
-          <input type="text" name="ph906" required>
-        </label>
-        <label>Name:
-          <input type="text" name="name" required>
-        </label>
-        <label>Address:
-          <input type="text" name="address" required>
-        </label>
-        <label>Type:
-          <input type="text" name="type" required>
-        </label>
-        <label>Deadline:
-          <input type="date" name="deadline" required>
-        </label>
-          <button type="submit" class="add-btn">Add Student</button>
+        <label for="ph906">PH906:</label>
+        <input type="text" id="ph906" name="ph906" required>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <label for="address">Address:</label>
+        <input type="text" id="address" name="address" required>
+        <label for="type">Type:</label>
+        <input type="text" id="type" name="type" required>
+        <label for="deadline">Deadline:</label>
+        <input type="date" id="deadline" name="deadline" required>
+        <button type="submit" class="add-btn">Add Letter</button>
       </form>
     </div>
   </div>

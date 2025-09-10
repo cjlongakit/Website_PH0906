@@ -289,12 +289,23 @@ th, td {
   color: #FFD700;
 }
 
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
 .modal-content input {
   padding: 0.5rem;
   border: none;
   border-radius: 8px;
   background: #e6eaf7;
   color: #00115a;
+.modal-content label {
+  font-weight: bold;
+  color: #FFD700;
+  margin-bottom: 0.3rem;
+  text-align: left;
+}
 }
 
 .modal-content input:focus {

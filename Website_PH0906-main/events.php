@@ -176,7 +176,7 @@ session_start();
     <header class="main-header" style="display: flex; justify-content: space-between; align-items: center;">
       <div class="header-group" style="display: flex; align-items: center;">
         <img src="ph0906logo.png" alt="Logo" style="width: 30px; height: 30px;" />
-        <h1 style="margin-left: 10px;">Hello, <span class="highlight">PH0906!</span></h1>
+        <h1 style="margin-left: 10px;">HELLO, <span class="highlight">PH0906!</span></h1>
       </div>
       <div class="profile-icon" style="margin-right: 10px; text-align: center;">
         <a href="caseworkerprofile.php">
@@ -212,16 +212,23 @@ session_start();
 
     <div class="modal-overlay" id="modal-overlay"></div>
     <div class="event-modal" id="event-modal">
-      <h3>Add Event</h3>
-      <form id="event-form">
-        <label for="event-date">Date:</label>
+      <h3 style="margin-bottom: 1rem; color: #007bff;">Add Event</h3>
+      <form id="event-form" style="display: flex; flex-direction: column; gap: 0.7rem;">
+        <label for="event-date" style="font-weight: bold; color: #007bff;">Date:</label>
         <input type="date" id="event-date" name="event-date" required>
-        <label for="event-title">Title:</label>
+        <label for="event-title" style="font-weight: bold; color: #007bff;">Title:</label>
         <input type="text" id="event-title" name="event-title" required>
-        <button type="submit">Save</button>
-        <button type="button" id="close-modal">Cancel</button>
+        <label for="event-desc" style="font-weight: bold; color: #007bff;">Description:</label>
+        <textarea id="event-desc" name="event-desc" rows="2" style="resize: vertical; border-radius: 6px; padding: 6px;"></textarea>
+        <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+          <button type="submit" style="background: #38bdf8; color: white; border: none; border-radius: 6px; padding: 8px 16px; font-weight: bold;">Save</button>
+          <button type="button" id="close-modal" style="background: #e11d48; color: white; border: none; border-radius: 6px; padding: 8px 16px; font-weight: bold;">Cancel</button>
+        </div>
       </form>
-      <div id="event-display" class="event-list" style="margin-top: 10px;"></div>
+      <div id="event-list-container" style="margin-top: 1.5rem; background: #f0f4fa; border-radius: 8px; padding: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+        <h4 style="color: #007bff; margin-bottom: 0.7rem;">Events for this day</h4>
+        <div id="event-display" class="event-list"></div>
+      </div>
     </div>
 
     <!-- Change Password Modal -->
@@ -302,17 +309,43 @@ session_start();
       function openEventModal(date) {
         eventDateInput.value = date;
         eventTitleInput.value = '';
+        document.getElementById('event-desc').value = '';
         const eventDisplay = document.getElementById('event-display');
         eventDisplay.innerHTML = '';
 
         if (events[date]) {
-          events[date].forEach((event, idx) => {
+          events[date].forEach((eventObj, idx) => {
+            // eventObj: {title, desc}
             const eventItem = document.createElement('div');
             eventItem.style.display = 'flex';
             eventItem.style.alignItems = 'center';
             eventItem.style.justifyContent = 'space-between';
-            eventItem.style.marginBottom = '6px';
-            eventItem.innerHTML = `<span>${event}</span>`;
+            eventItem.style.marginBottom = '8px';
+
+            const infoDiv = document.createElement('div');
+            infoDiv.style.flex = '1';
+            infoDiv.innerHTML = `<span style='font-weight:bold;'>${eventObj.title}</span><br><span style='font-size:0.95em; color:#555;'>${eventObj.desc || ''}</span>`;
+            eventItem.appendChild(infoDiv);
+
+            const btnGroup = document.createElement('div');
+            btnGroup.style.display = 'flex';
+            btnGroup.style.gap = '6px';
+
+            const editBtn = document.createElement('button');
+            editBtn.textContent = 'Edit';
+            editBtn.style.background = '#38bdf8';
+            editBtn.style.color = '#fff';
+            editBtn.style.border = 'none';
+            editBtn.style.borderRadius = '4px';
+            editBtn.style.padding = '2px 8px';
+            editBtn.style.cursor = 'pointer';
+            editBtn.onclick = function() {
+              eventTitleInput.value = eventObj.title;
+              document.getElementById('event-desc').value = eventObj.desc || '';
+              eventDateInput.value = date;
+              eventForm.setAttribute('data-edit-idx', idx);
+            };
+            btnGroup.appendChild(editBtn);
 
             const deleteBtn = document.createElement('button');
             deleteBtn.textContent = 'Delete';
@@ -323,10 +356,12 @@ session_start();
             deleteBtn.style.padding = '2px 8px';
             deleteBtn.style.cursor = 'pointer';
             deleteBtn.onclick = async function() {
-              await deleteEvent(date, event);
+              await deleteEvent(date, eventObj.title);
               eventItem.remove();
             };
-            eventItem.appendChild(deleteBtn);
+            btnGroup.appendChild(deleteBtn);
+
+            eventItem.appendChild(btnGroup);
             eventDisplay.appendChild(eventItem);
           });
         } else {
@@ -335,6 +370,7 @@ session_start();
 
         eventModal.style.display = 'block';
         modalOverlay.style.display = 'block';
+        eventForm.removeAttribute('data-edit-idx');
       }
       async function deleteEvent(date, title) {
         try {
@@ -368,17 +404,23 @@ session_start();
       async function fetchEvents() {
         const response = await fetch('fetch_events.php');
         const data = await response.json();
-        Object.assign(events, data);
+        // Convert old format to new: {date: [{title, desc}]} or fallback
+        for (const date in data) {
+          events[date] = data[date].map(ev => {
+            if (typeof ev === 'string') return {title: ev, desc: ''};
+            return ev;
+          });
+        }
         renderCalendar(currentYear, currentMonth);
       }
 
-      async function saveEvent(date, title) {
+      async function saveEvent(date, title, desc, editIdx = null) {
         const response = await fetch('save_event.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
           },
-          body: `event_date=${encodeURIComponent(date)}&event_title=${encodeURIComponent(title)}`,
+          body: `event_date=${encodeURIComponent(date)}&event_title=${encodeURIComponent(title)}&event_desc=${encodeURIComponent(desc)}&edit_idx=${editIdx !== null ? editIdx : ''}`,
         });
 
         const result = await response.json();
@@ -386,7 +428,11 @@ session_start();
           if (!events[date]) {
             events[date] = [];
           }
-          events[date].push(title);
+          if (editIdx !== null) {
+            events[date][editIdx] = {title, desc};
+          } else {
+            events[date].push({title, desc});
+          }
           renderCalendar(currentYear, currentMonth);
         } else {
           alert('Failed to save event.');
@@ -397,7 +443,9 @@ session_start();
         e.preventDefault();
         const date = eventDateInput.value;
         const title = eventTitleInput.value;
-        await saveEvent(date, title);
+        const desc = document.getElementById('event-desc').value;
+        const editIdx = eventForm.getAttribute('data-edit-idx');
+        await saveEvent(date, title, desc, editIdx !== null ? parseInt(editIdx) : null);
         closeEventModal();
       });
 

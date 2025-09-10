@@ -8,6 +8,35 @@ session_start();
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>All Students</title>
   <link rel="stylesheet" href="home.css" />
+  <style>
+    .sticky-table th {
+      position: sticky;
+      top: 0;
+      background: #1e293b;
+      color: white;
+      z-index: 2;
+    }
+    .sticky-table td, .sticky-table th {
+      padding: 0.75rem;
+      border-bottom: 1px solid #e5e7eb;
+      text-align: left;
+    }
+    .sticky-table tbody tr:hover {
+      background: #f1f5f9;
+    }
+    .sticky-table {
+      font-size: 1rem;
+      width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      background: white;
+    }
+    .sticky-table a {
+      color: #2563eb;
+      text-decoration: underline;
+      font-weight: 500;
+    }
+  </style>
 </head>
 <body>
   <div class="sidebar-panel" style="position: fixed; top: 0; left: 0; width: 250px; height: 100%; background: #1e293b; color: white; box-shadow: 2px 0 8px rgba(0,0,0,0.15); display: flex; flex-direction: column; justify-content: space-between; z-index: 1000;">
@@ -126,43 +155,45 @@ session_start();
     };
     </script>
 
-    <section class="table-section">
-      <table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>PH906</th>
-            <th>Last Name</th>
-            <th>First Name</th>
-            <th>Sex</th>
-            <th>Birthday</th>
-            <th>Age</th>
-            <th>Caseworker Assigned</th>
-            <th>Teacher</th>
-          </tr>
-        </thead>
-        <tbody>
-        <?php
-        include 'db.php';
-        $result = $conn->query("SELECT * FROM masterlist ORDER BY ph906 DESC");
-        $count = 1; // Initialize counter
-        while ($row = $result->fetch_assoc()) {
-            echo "<tr>
-                <td>{$count}</td>
-                <td><a href='studentprofile.php?ph906={$row['ph906']}' style='color: blue; text-decoration: underline;'>{$row['ph906']}</a></td>
-                <td>{$row['last_name']}</td>
-                <td>{$row['first_name']}</td>
-                <td>{$row['sex']}</td>
-                <td>{$row['birthday']}</td>
-                <td>{$row['age']}</td>
-                <td>{$row['caseworker_assigned']}</td>
-                <td>{$row['teacher']}</td>
-            </tr>";
-            $count++; // Increment counter
-        }
-        ?>
-        </tbody>
-      </table>
+    <section class="table-section" style="max-width: 100%;">
+      <div style="max-height: 480px; overflow-y: auto; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); background: white;">
+        <table class="sticky-table" style="width: 100%; border-collapse: collapse;">
+          <thead style="display: block; width: 100%;">
+            <tr>
+              <th style="min-width: 40px;">#</th>
+              <th style="min-width: 80px;">PH906</th>
+              <th style="min-width: 120px;">Last Name</th>
+              <th style="min-width: 120px;">First Name</th>
+              <th style="min-width: 60px;">Sex</th>
+              <th style="min-width: 110px;">Birthday</th>
+              <th style="min-width: 60px;">Age</th>
+              <th style="min-width: 160px;">Caseworker Assigned</th>
+              <th style="min-width: 100px;">Teacher</th>
+            </tr>
+          </thead>
+          <tbody style="display: block; width: 100%;">
+          <?php
+          include 'db.php';
+          $result = $conn->query("SELECT * FROM masterlist ORDER BY ph906 DESC");
+          $count = 1; // Initialize counter
+          while ($row = $result->fetch_assoc()) {
+              echo "<tr>
+                  <td style='min-width: 40px;'>$count</td>
+                  <td style='min-width: 80px;'><a href='studentprofile.php?ph906={$row['ph906']}' style='color: blue; text-decoration: underline;'>{$row['ph906']}</a></td>
+                  <td style='min-width: 120px;'>{$row['last_name']}</td>
+                  <td style='min-width: 120px;'>{$row['first_name']}</td>
+                  <td style='min-width: 60px;'>{$row['sex']}</td>
+                  <td style='min-width: 110px;'>{$row['birthday']}</td>
+                  <td style='min-width: 60px;'>{$row['age']}</td>
+                  <td style='min-width: 160px;'>{$row['caseworker_assigned']}</td>
+                  <td style='min-width: 100px;'>{$row['teacher']}</td>
+              </tr>";
+              $count++; // Increment counter
+          }
+          ?>
+          </tbody>
+        </table>
+      </div>
     </section>
   </div>
 
@@ -181,6 +212,7 @@ session_start();
         <label for="confirm-password">Confirm New Password:</label>
         <input type="password" id="confirm-password" name="confirm_password" required style="width: 100%; margin-bottom: 10px; padding: 8px;">
 
+  <!-- Removed duplicate sticky header CSS from modal -->
         <button type="submit" style="width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Change Password</button>
       </form>
     </div>
